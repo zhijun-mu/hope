@@ -1,8 +1,13 @@
 import Image from "next/image";
+import { auth } from "@/utils/auth";
 
-export default () => {
+export default async () => {
+  const session = await auth();
+
+  if (!session?.user) return null;
+
   return (
-    <div>
+    <>
       <Image
         src="/logo.png"
         alt="Hope logo"
@@ -10,6 +15,11 @@ export default () => {
         height={180}
         priority
       />
-    </div>
+
+      <div>
+        <div>{JSON.stringify(session)}</div>
+        <img src={session.user.image || ""} alt="User Avatar" />
+      </div>
+    </>
   );
-}
+};

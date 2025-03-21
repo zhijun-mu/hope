@@ -8,10 +8,4 @@
 
 ```bash
 npm run dev
-# 或者
-yarn dev
-# 或者
-pnpm dev
-# 或者
-bun dev
 ```
