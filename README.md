@@ -9,3 +9,11 @@
 ```bash
 npm run dev
 ```
+
+## 数据库操作
+
+你可以使用以下命令根据 `schema` 文件生成数据库模型：
+
+```bash
+npx prisma db push
+```
