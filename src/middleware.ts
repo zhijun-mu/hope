@@ -1,12 +1,26 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+import NextAuth from "next-auth";
+import authConfig from "@/utils/auth.config";
+
+const { auth } = NextAuth(authConfig);
+
+export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
   const { pathname } = nextUrl;
 
-  console.log("-------------------------------middleware-----", pathname);
+  const session = await auth();
+
+  if (pathname.startsWith("/sign-in")) {
+    return !session
+      ? NextResponse.next()
+      : NextResponse.redirect(new URL("/", nextUrl));
+  }
+
+  return !session
+    ? NextResponse.redirect(new URL("/sign-in", nextUrl))
+    : NextResponse.next();
 }
 
 export const config = {
